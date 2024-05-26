@@ -205,6 +205,30 @@ ie: 91 rounds to 90; 173 rounds to 200; 1450 rounds to 1000
 Hint: use `MARGIN = 1:2` to apply the function to each value instead of only a row/col.
 
 ```{r}
+# generate the matrix of random numbers
+set.seed(123)  # set seed for reproducibility
+rand_num <- c(sample(10:100, 10), sample(100:999, 10), sample(1000:2000, 10))
+mat_rand <- matrix(sample(rand_num, 30), ncol = 5)
+
+# define the rounding function
+round_value <- function(x) {
+  if (x < 100) {
+    return(round(x, -1))  # round to the nearest tens
+  } else if (x < 1000) {
+    return(round(x, -2))  # round to the nearest hundreds
+  } else {
+    return(round(x, -3))  # round to the nearest thousands
+  }
+}
+
+# apply the rounding function to each element in the matrix
+mat_rand_rounded <- apply(mat_rand, 1:2, round_value)
+
+# print the original and rounded matrices
+print("Original matrix:")
+print(mat_rand)
+print("Rounded matrix:")
+print(mat_rand_rounded)
 
 ```
 
@@ -229,6 +253,17 @@ max_temps <- read_tsv("state_max_temps.tsv") |>
 Calculate the average temperature for each month across the whole data frame (using the data for all three states together).
 
 ```{r}
+# load more necessary libraries
+library(readr)
+library(dplyr)
+library(janitor)
+
+# calculate avg temperature for each month
+average_temps <- max_temps %>%
+  summarise(across(jan:dec, mean, na.rm = TRUE))
+
+# print avg temperatures for each month
+print(average_temps)
 
 ```
 
@@ -244,6 +279,12 @@ Create three new data frames by slicing the data by state.
 No need to print any output here.
 
 ```{r}
+# slice data frame by state
+colorado_temps <- max_temps %>% filter(state == "CO")
+ohio_temps <- max_temps %>% filter(state == "OH")
+virginia_temps <- max_temps %>% filter(state == "VA")
+
+
 
 ```
 
@@ -265,6 +306,20 @@ Example (this is NOT the answer just an example of what goes in the {}):
 Note: This code should still run successfully even if the numbers were to change.
 
 ```{r}
+# calculate median annual temperature for each year
+colorado_medians <- colorado_temps %>%
+  rowwise() %>%
+  mutate(median_temp = median(c_across(jan:dec), na.rm = TRUE))
+
+# determine year with highest and lowest median temperature
+max_median_temp <- max(colorado_medians$median_temp)
+min_median_temp <- min(colorado_medians$median_temp)
+year_max_median <- colorado_medians$year[which.max(colorado_medians$median_temp)]
+year_min_median <- colorado_medians$year[which.min(colorado_medians$median_temp)]
+
+# print  result in specified format
+cat(sprintf("The maximum median annual temperature of %.2f occurred in %d and the minimum median annual temperature of %.2f occurred in %d.\n",
+            max_median_temp, year_max_median, min_median_temp, year_min_median))
 
 ```
 
