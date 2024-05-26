@@ -333,6 +333,20 @@ Example: The number 312 would return 6 (3 + 1 + 2)
 Run your function with 935068.
 
 ```{r}
+# define recursive function to sum dig of a number
+sum_of_dig <- function(num) {
+  # base case: if number is a single dig, return number itself
+  if (num < 10) {
+    return(num)
+  } else {
+    # recursive case: sum last digit and sum of dig of remaining number
+    return(num %% 10 + sum_of_dig(num %/% 10))
+  }
+}
+
+# test function with the number 935068
+result <- sum_of_dig(935068)
+print(result)  # Should return 31 (9 + 3 + 5 + 0 + 6 + 8)
 
 ```
 
