@@ -127,8 +127,8 @@ player_info$KB$height <- 78
 player_info$KA$height <- 86
 player_info$SO$height <- 85
 
-# Print the updated player_info list
-print(player_info)
+# print the updated player_info list
+player_info
 
 ```
 
@@ -159,7 +159,7 @@ for (player in names(player_info)) {
 }
 
 # print points_per_game list
-print(points_per_game)
+points_per_game
 
 ```
 
@@ -211,9 +211,9 @@ mat_rand_rounded <- apply(mat_rand, 1:2, round_val)
 
 # print the original and rounded matrices
 print("Original matrix:")
-print(mat_rand)
+mat_rand
 print("Rounded matrix:")
-print(mat_rand_rounded)
+mat_rand_rounded
 
 ```
 
